@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Assistant Settings</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 20px;
+      max-width: 600px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 24px;
+      color: #24292e;
+      border-bottom: 1px solid #d0d7de;
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #24292e;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #d0d7de;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: #0366d6;
+      box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #1a7f37;
+      background-color: #2ea44f;
+      color: white;
+      cursor: pointer;
+    }
+    #status {
+      margin-left: 15px;
+      color: #2ea44f;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>AI Writing Assistant Settings</h1>
+
+  <form id="settings-form">
+    <div class="form-group">
+      <label for="api-key">AI API Key (e.g., Gemini, OpenAI)</label>
+      <input type="text" id="api-key" name="apiKey" placeholder="Enter your API key">
+    </div>
+
+    <div class="form-group">
+      <label for="ai-style">Writing Style</label>
+      <select id="ai-style" name="style">
+        <option value="formal">Formal</option>
+        <option value="casual">Casual</option>
+        <option value="persuasive">Persuasive</option>
+        <option value="narrative">Narrative</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tone-warmth">Tone Warmth</label>
+      <select id="tone-warmth" name="tone">
+        <option value="neutral">Neutral</option>
+        <option value="friendly">Friendly</option>
+        <option value="assertive">Assertive</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="output-length">Output Length</label>
+      <select id="output-length" name="length">
+        <option value="short">Short</option>
+        <option value="medium">Medium</option>
+        <option value="long">Long</option>
+      </select>
+    </div>
+
+    <button type="submit" id="save-btn">Save Settings</button>
+    <span id="status"></span>
+  </form>
+
+  <script src="options.js"></script>
+</body>
+</html>
