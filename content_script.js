@@ -174,16 +174,27 @@
       }
   }
 
-  // --- Event Listeners for editable fields ---
-  document.addEventListener('focusin', (e) => {
-    if (e.target.matches('textarea, input[type="text"], [contenteditable="true"]')) {
-      activeElement = e.target;
-      console.log('Editable element focused:', activeElement);
-      // Maybe show the toggle button or panel automatically
-      const toggleBtn = document.getElementById('ai-assistant-toggle-btn');
-      if(toggleBtn) toggleBtn.style.display = 'flex';
+  // --- Global Focus Handler ---
+  // Use a single focus listener (in capture phase) to manage visibility.
+  document.addEventListener('focus', (e) => {
+    const target = e.target;
+    const toggleBtn = document.getElementById('ai-assistant-toggle-btn');
+    if (!toggleBtn) return;
+
+    const isEditable = target.matches('textarea, input[type="text"], [contenteditable="true"]');
+    const isAssistant = target.closest('#ai-assistant-container');
+
+    if (isEditable) {
+      // If we focus an editable field, store it and show the button.
+      activeElement = target;
+      toggleBtn.style.display = 'flex';
+    } else if (!isAssistant) {
+      // If we focus anything else that is NOT our assistant, hide the button.
+      toggleBtn.style.display = 'none';
     }
-  });
+    // If focus is inside the assistant, we do nothing, keeping the button visible.
+
+  }, true); // Use capture: true to get events early.
 
   // --- Message Listener from Background ---
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

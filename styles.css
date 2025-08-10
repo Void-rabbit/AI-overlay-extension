@@ -3,29 +3,34 @@
   position: fixed;
   top: 50px;
   left: 50px;
-  width: 350px;
-  min-width: 250px;
-  max-width: 600px;
-  height: 400px;
-  min-height: 200px;
+  width: 380px; /* Slightly wider */
+  min-width: 300px;
+  max-width: 700px;
+  height: 450px; /* Slightly taller */
+  min-height: 250px;
   max-height: 80vh;
-  background-color: #f0f4f8;
-  border: 1px solid #d0d7de;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+  background-color: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 16px; /* More rounded */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05);
   z-index: 99999;
   display: flex;
   flex-direction: column;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   overflow: hidden; /* Ensures children adhere to border-radius */
+  transition: box-shadow 0.3s ease;
+}
+
+#ai-assistant-container:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.07);
 }
 
 /* Draggable header */
 #ai-assistant-header {
-  padding: 8px 12px;
+  padding: 12px 16px; /* More padding */
   cursor: move;
-  background-color: #e6eaf0;
-  border-bottom: 1px solid #d0d7de;
+  background: linear-gradient(135deg, #f8fafc, #eef2f7); /* Subtle gradient */
+  border-bottom: 1px solid #e1e4e8;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,9 +39,9 @@
 
 #ai-assistant-header h3 {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  color: #24292e;
+  color: #1f2937; /* Darker text */
 }
 
 #ai-assistant-close-btn {
@@ -52,25 +57,30 @@
 #ai-assistant-toolbar {
   display: flex;
   gap: 8px;
-  padding: 8px 12px;
-  border-bottom: 1px solid #d0d7de;
-  background-color: #ffffff;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e1e4e8;
+  background-color: #f8fafc;
 }
 
 #ai-assistant-toolbar button {
-  padding: 6px 12px;
+  padding: 8px 14px; /* More padding */
   font-size: 13px;
   font-weight: 500;
-  border-radius: 6px;
-  border: 1px solid #d0d7de;
-  background-color: #f6f8fa;
-  color: #24292e;
+  border-radius: 8px; /* More rounded */
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #374151;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 #ai-assistant-toolbar button:hover {
-  background-color: #e1e4e8;
+  background-color: #f9fafb;
+  border-color: #60a5fa; /* Blue accent on hover */
+  color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.07);
 }
 
 /* Main content area */
@@ -78,19 +88,21 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 16px;
   background-color: #ffffff;
 }
 
 #ai-assistant-textarea {
   flex-grow: 1;
-  border: 1px solid #d0d7de;
-  border-radius: 6px;
-  padding: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 12px;
   font-size: 14px;
+  line-height: 1.6; /* Improved line spacing */
   resize: none;
   width: 100%;
   box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
 }
 
 #ai-assistant-textarea:focus {
@@ -102,19 +114,22 @@
 /* Insert button */
 #ai-assistant-insert-btn {
   margin-top: 12px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 6px;
-  border: 1px solid #1a7f37;
-  background-color: #2ea44f;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
   color: white;
   cursor: pointer;
   align-self: flex-end;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 #ai-assistant-insert-btn:hover {
-  background-color: #2c974b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
 }
 
 /* Resizer handle */
@@ -133,19 +148,25 @@
 /* Floating action button to toggle the assistant */
 #ai-assistant-toggle-btn {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 56px;
-    height: 56px;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background-color: #0366d6;
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
     color: white;
     border: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     cursor: pointer;
     z-index: 99998;
-    display: flex;
+    display: none; /* Hidden by default */
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 28px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#ai-assistant-toggle-btn:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: 0 8px 20px rgba(96, 165, 250, 0.4);
 }
