@@ -1,10 +1,18 @@
 (() => {
-  console.log("AI Writing Assistant content script loaded.");
+  console.log("AI Assistant: Content script loaded successfully.");
 
   let activeElement = null;
 
   // --- UI Creation ---
   function createAssistantUI() {
+    console.log("AI Assistant: createAssistantUI() function called.");
+
+    // Check if container already exists to prevent duplicates
+    if (document.getElementById('ai-assistant-container')) {
+        console.log("AI Assistant: UI container already exists. Aborting UI creation.");
+        return;
+    }
+
     const container = document.createElement('div');
     container.id = 'ai-assistant-container';
     container.style.display = 'none'; // Initially hidden
@@ -56,11 +64,12 @@
 
     document.body.appendChild(container);
 
-    // --- Floating Toggle Button ---
     const toggleBtn = document.createElement('button');
     toggleBtn.id = 'ai-assistant-toggle-btn';
     toggleBtn.textContent = '✨';
     document.body.appendChild(toggleBtn);
+
+    console.log("AI Assistant: All UI elements created and appended to the body.");
 
     // --- Event Listeners ---
     toggleBtn.addEventListener('click', () => {
@@ -74,7 +83,6 @@
     makeDraggable(container, header);
     makeResizable(container, resizer);
 
-    // --- Action Listeners ---
     insertBtn.addEventListener('click', insertText);
     toolbar.addEventListener('click', handleToolbarAction);
   }
@@ -133,14 +141,12 @@
     const textToInsert = document.getElementById('ai-assistant-textarea').value;
     if (activeElement && textToInsert) {
       if (typeof activeElement.value !== 'undefined') {
-        // For <textarea> and <input>
         const start = activeElement.selectionStart;
         const end = activeElement.selectionEnd;
         const text = activeElement.value;
         activeElement.value = text.slice(0, start) + textToInsert + text.slice(end);
         activeElement.selectionStart = activeElement.selectionEnd = start + textToInsert.length;
       } else if (activeElement.isContentEditable) {
-        // For contenteditable elements
         activeElement.focus();
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
@@ -157,15 +163,13 @@
       if (e.target.tagName === 'BUTTON') {
           const action = e.target.dataset.action;
           const currentText = activeElement ? (activeElement.value || activeElement.textContent) : '';
-          console.log(`Toolbar action: ${action}, Current text: ${currentText.substring(0, 100)}...`);
-          // Placeholder for sending to background script
           chrome.runtime.sendMessage({
               type: 'ai-action',
               action: action,
               text: currentText
           }, (response) => {
               if (chrome.runtime.lastError) {
-                  console.error(chrome.runtime.lastError.message);
+                  console.error("AI Assistant: Error in sendMessage callback:", chrome.runtime.lastError.message);
                   return;
               }
               const assistantTextarea = document.getElementById('ai-assistant-textarea');
@@ -175,26 +179,31 @@
   }
 
   // --- Global Focus Handler ---
-  // Use a single focus listener (in capture phase) to manage visibility.
   document.addEventListener('focus', (e) => {
     const target = e.target;
+    console.log("AI Assistant: Focus event triggered on ->", target);
+
     const toggleBtn = document.getElementById('ai-assistant-toggle-btn');
-    if (!toggleBtn) return;
+    if (!toggleBtn) {
+        console.error("AI Assistant: FATAL - Toggle button not found in DOM.");
+        return;
+    }
 
     const isEditable = target.matches('textarea, input[type="text"], [contenteditable="true"]');
     const isAssistant = target.closest('#ai-assistant-container');
 
     if (isEditable) {
-      // If we focus an editable field, store it and show the button.
+      console.log("AI Assistant: Target is an editable field. Showing toggle button.");
       activeElement = target;
       toggleBtn.style.display = 'flex';
-    } else if (!isAssistant) {
-      // If we focus anything else that is NOT our assistant, hide the button.
+    } else if (isAssistant) {
+      console.log("AI Assistant: Target is within the assistant UI. Keeping toggle button visible.");
+      // Do nothing, keep the button visible
+    } else {
+      console.log("AI Assistant: Target is not editable or part of the assistant. Hiding toggle button.");
       toggleBtn.style.display = 'none';
     }
-    // If focus is inside the assistant, we do nothing, keeping the button visible.
-
-  }, true); // Use capture: true to get events early.
+  }, true);
 
   // --- Message Listener from Background ---
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

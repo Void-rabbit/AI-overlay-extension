@@ -4,9 +4,7 @@
   "version": "1.0",
   "description": "A real-time AI writing assistant to help you write better, faster.",
   "permissions": [
-    "storage",
-    "activeTab",
-    "scripting"
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
